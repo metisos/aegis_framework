@@ -1,4 +1,4 @@
-# Aegis Framework
+# Aegis Multi-Agent Framework
 
 A powerful framework for creating multi-agent AI colonies, with support for local LLM integration through Ollama.
 
@@ -33,20 +33,8 @@ pip install -e .
 
 ## Quick Start
 
-### Basic Usage (Without LLM)
 
-```python
-from aegis_framework import MasterAIAgent
-
-# Create a basic agent
-agent = MasterAIAgent(name="Basic Agent")
-
-# Ask a question
-response = agent.answer_question("What is the meaning of life?")
-print(response)
-```
-
-### Advanced Usage (With Ollama LLM)
+### Basic Usage (With Ollama LLM)
 
 ```python
 from aegis_framework import MasterAIAgent, OllamaLocalModel
