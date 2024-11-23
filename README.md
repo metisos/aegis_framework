@@ -1,15 +1,6 @@
 # Aegis Multi-Agent Framework
 
-<div align="center">
 
-![Aegis Multi-Agent Framework](https://raw.githubusercontent.com/metisos/aegis_framework/main/docs/assets/aegis-logo.png)
-
-[![PyPI version](https://badge.fury.io/py/aegis-framework.svg)](https://badge.fury.io/py/aegis-framework)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
-[![Documentation Status](https://readthedocs.org/projects/aegis-framework/badge/?version=latest)](https://aegis-framework.readthedocs.io/en/latest/?badge=latest)
-
-</div>
 
 ## Overview
 
@@ -155,24 +146,6 @@ results = analyst.analyze_data(
   - numpy >= 1.19.0 (numerical operations)
   - pandas >= 1.3.0 (data handling)
 
-## Documentation
-
-Comprehensive documentation is available at [aegis-framework.readthedocs.io](https://aegis-framework.readthedocs.io/), including:
-
-- Detailed API Reference
-- Advanced Usage Guides
-- Best Practices
-- Example Projects
-- Performance Optimization Tips
-
-## Contributing
-
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details on:
-
-- Code Style
-- Development Setup
-- Testing Requirements
-- Pull Request Process
 
 ## License
 
@@ -183,7 +156,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Author**: Metis Analytics
 - **Email**: cjohnson@metisos.com
 - **GitHub Issues**: [Report a bug](https://github.com/metisos/aegis_framework/issues)
-- **Discord**: [Join our community](https://discord.gg/aegisframework)
+
 
 ## Acknowledgments
 
