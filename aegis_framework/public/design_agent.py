@@ -1,47 +1,52 @@
 """
 Public interface for the Design Agent.
+Provides a simplified interface to the core design agent functionality.
 """
 
 from typing import Optional, Dict, Any, List
+from ..core.design_agent import CoreDesignAgent
 
 class DesignAgent:
-    """A simplified interface for the Design Agent."""
+    """Public interface for the Design Agent."""
     
-    def __init__(self, model: str = "gemma2:9b"):
+    def __init__(self, model: str = "llama2:13b"):
         """
         Initialize the Design Agent.
         
         Args:
             model: Name of the LLM model to use
         """
-        self.model = model
+        self._core = CoreDesignAgent(model=model)
     
-    def generate_new_design(self) -> Dict[str, Any]:
+    def generate_new_design(self, context: Optional[str] = None) -> Dict[str, Any]:
         """
         Generate a new agent design.
         
+        Args:
+            context: Design context or requirements
+            
         Returns:
             Dict containing the design specification
         """
-        return {
-            "status": "success",
-            "message": "Design generation requires core implementation"
-        }
+        return self._core.generate_new_design(context)
     
-    def get_suggested_designs(self) -> List[str]:
+    def start_periodic_design(self) -> str:
         """
-        Get a list of suggested design patterns.
+        Start periodic design generation.
         
         Returns:
-            List of design pattern suggestions
+            str: Status message
         """
-        return [
-            "Task-specific agent",
-            "Multi-agent system",
-            "Hierarchical agent structure",
-            "Event-driven agent",
-            "Learning agent"
-        ]
+        return self._core.start_periodic_design()
+    
+    def stop_periodic_design(self) -> str:
+        """
+        Stop periodic design generation.
+        
+        Returns:
+            str: Status message
+        """
+        return self._core.stop_periodic_design()
 
 def run_design_task(task: str) -> Dict[str, Any]:
     """
@@ -53,7 +58,5 @@ def run_design_task(task: str) -> Dict[str, Any]:
     Returns:
         Dict containing the task result
     """
-    return {
-        "status": "success",
-        "message": f"Design task '{task}' requires core implementation"
-    }
+    agent = DesignAgent()
+    return agent.run_task(task)

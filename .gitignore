@@ -2,6 +2,9 @@
 /aegis_framework/core/
 !/aegis_framework/core/__init__.py
 
+# Generated agent designs
+/aegis_framework/agent_designs/
+
 # Python
 __pycache__/
 *.py[cod]

@@ -1,10 +1,10 @@
 # Aegis Multi-Agent Framework
 
-
+A powerful, extensible platform for building and deploying AI agent systems with seamless local LLM integration.
 
 ## Overview
 
-The Aegis Multi-Agent Framework is a powerful, extensible platform for building and deploying AI agent systems with seamless local LLM integration. Designed for both researchers and developers, it provides a robust foundation for creating sophisticated multi-agent systems while maintaining simplicity and flexibility.
+The Aegis Multi-Agent Framework provides a robust foundation for creating sophisticated multi-agent systems while maintaining simplicity and flexibility. Perfect for both researchers and developers looking to build advanced AI agent applications.
 
 ### Key Features
 
@@ -23,21 +23,12 @@ The Aegis Multi-Agent Framework is a powerful, extensible platform for building 
   - Parallel task execution
   - Priority-based scheduling
 
-- **Performance Analytics**
-  - Built-in metrics tracking
-  - Performance optimization tools
-  - Detailed execution logs
-
 ## Quick Start
 
 ### Installation
 
 ```bash
-# Basic installation
 pip install aegis-framework
-
-# With web interface support
-pip install aegis-framework[web]
 ```
 
 ### Basic Usage
@@ -46,18 +37,16 @@ pip install aegis-framework[web]
 from aegis_framework import MasterAIAgent, DesignAgent
 
 # Initialize a master agent
-agent = MasterAIAgent(
-    model="gemma2:9b",
-    temperature=0.7,
-    max_tokens=2048
-)
+agent = MasterAIAgent(model="gemma2:9b")
 
 # Generate responses
-response = agent.answer_question("Explain the concept of emergent behavior in multi-agent systems.")
+response = agent.answer_question(
+    "What are the key principles of multi-agent systems?"
+)
 print(response)
 
 # Create a specialized design agent
-designer = DesignAgent(model="codellama")
+designer = DesignAgent(model="gemma2:9b")
 design = designer.generate_new_design(
     context="Create a microservices architecture",
     constraints=["scalability", "fault-tolerance"]
@@ -69,94 +58,85 @@ print(design)
 
 ```python
 from aegis_framework import MasterAIAgent
-from typing import Dict, List, Optional
+from typing import Dict, Any, Optional
 
 class DataAnalysisAgent(MasterAIAgent):
     def __init__(
-        self, 
-        model: str = "codellama",
+        self,
+        model: str = "gemma2:9b",
         custom_tasks: Optional[Dict[str, List[str]]] = None
     ):
         super().__init__(model=model)
         
-        # Define specialized tasks
+        # Add specialized tasks
         self.agent_task_map.update({
             "data_analysis": [
                 "analyze data",
                 "statistical analysis",
-                "data visualization",
-                "hypothesis testing"
+                "trend analysis",
+                "data visualization"
             ]
         })
         
-        # Add custom tasks if provided
         if custom_tasks:
             self.agent_task_map.update(custom_tasks)
     
     def analyze_data(
-        self, 
+        self,
         data: str,
-        analysis_type: str = "comprehensive",
-        confidence_level: float = 0.95
-    ) -> Dict[str, any]:
-        """
-        Perform data analysis with specified parameters.
-        
-        Args:
-            data: Input data for analysis
-            analysis_type: Type of analysis to perform
-            confidence_level: Statistical confidence level
-            
-        Returns:
-            Dictionary containing analysis results
-        """
-        prompt = self._construct_analysis_prompt(
-            data=data,
-            analysis_type=analysis_type,
-            confidence_level=confidence_level
-        )
-        return self.generate_structured_response(prompt)
+        analysis_type: str = "comprehensive"
+    ) -> Dict[str, Any]:
+        """Perform data analysis with specified parameters."""
+        prompt = f"Analyze this {analysis_type} data: {data}"
+        return self.perform_task(prompt)
 
-# Usage example
-analyst = DataAnalysisAgent(model="codellama:13b")
+# Usage
+analyst = DataAnalysisAgent()
 results = analyst.analyze_data(
     data="your_data_here",
-    analysis_type="statistical",
-    confidence_level=0.99
+    analysis_type="statistical"
 )
 ```
 
 ## System Requirements
 
-### Core Requirements
 - Python 3.7+
 - Ollama (for local LLM support)
 - 8GB+ RAM (recommended)
-- CUDA-compatible GPU (optional, for enhanced performance)
+- CUDA-compatible GPU (optional)
 
-### Optional Dependencies
-- **Web Interface**
-  - Flask >= 2.0.0
-  - Flask-SocketIO >= 5.0.0
-  - Eventlet >= 0.30.0
+## Example Scripts
 
-- **Enhanced Features**
-  - fuzzywuzzy >= 0.18.0 (text matching)
-  - sqlite3-api >= 3.0.0 (database integration)
-  - numpy >= 1.19.0 (numerical operations)
-  - pandas >= 1.3.0 (data handling)
+The framework includes several example scripts to help you get started:
 
+1. `basic_usage.py`: Demonstrates core functionality
+2. `design_agent_example.py`: Shows advanced design capabilities
+3. `custom_agent_example.py`: Illustrates custom agent creation
+
+Run any example with the `--help` flag to see available options:
+```bash
+python examples/basic_usage.py --help
+```
+
+## Version History
+
+Current Version: 0.1.15
+
+Key Updates:
+- Enhanced local LLM integration
+- Improved design agent capabilities
+- Better error handling
+- More comprehensive examples
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Contact & Support
+## Contact
 
 - **Author**: Metis Analytics
 - **Email**: cjohnson@metisos.com
 - **GitHub Issues**: [Report a bug](https://github.com/metisos/aegis_framework/issues)
-
 
 ## Acknowledgments
 
@@ -167,6 +147,4 @@ Special thanks to:
 
 ---
 
-<div align="center">
 Made with ❤️ by Metis Analytics
-</div>

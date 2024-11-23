@@ -1,11 +1,13 @@
 """
 Public interface for the Master AI Agent.
+Provides a simplified interface to the core agent functionality.
 """
 
-from typing import List, Dict, Any, Optional
+from typing import Dict, Any, List
+from ..core.master_agent import CoreMasterAgent
 
 class MasterAIAgent:
-    """A simplified interface for the Master AI Agent."""
+    """Public interface for the Master AI Agent."""
     
     def __init__(self, model: str = "gemma2:9b"):
         """
@@ -14,26 +16,7 @@ class MasterAIAgent:
         Args:
             model: Name of the LLM model to use
         """
-        self.model = model
-        self.agent_task_map = {
-            "general": [
-                "answer questions",
-                "analyze text",
-                "generate content",
-                "summarize information"
-            ]
-        }
-        self.suggested_prompts = self.generate_suggested_prompts()
-    
-    def generate_suggested_prompts(self) -> List[str]:
-        """Generate a list of suggested prompts."""
-        return [
-            "How do I implement a neural network?",
-            "What are the best practices for code review?",
-            "Explain the concept of recursion",
-            "How to optimize database queries?",
-            "What is dependency injection?"
-        ]
+        self._core = CoreMasterAgent(model=model)
     
     def answer_question(self, question: str) -> str:
         """
@@ -45,28 +28,34 @@ class MasterAIAgent:
         Returns:
             str: The agent's response
         """
-        return f"To answer '{question}', please use the core implementation."
+        return self._core.answer_question(question)
     
     def perform_task(self, task: str) -> Dict[str, Any]:
         """
-        Perform a specified task.
+        Perform a specified task using the agent's capabilities.
         
         Args:
-            task: Description of the task to perform
+            task: The task to perform
             
         Returns:
-            Dict containing the task result
+            Dict[str, Any]: Task result
         """
-        return {
-            "status": "success",
-            "message": f"Task '{task}' requires core implementation"
-        }
+        return self._core.perform_task(task)
+    
+    def get_task_list(self) -> List[str]:
+        """
+        Get a list of all available tasks.
+        
+        Returns:
+            List[str]: List of available tasks
+        """
+        return self._core.get_task_list()
     
     def get_suggested_prompts(self) -> List[str]:
         """
         Get a list of suggested prompts.
         
         Returns:
-            List of prompt suggestions
+            List[str]: List of suggested prompts
         """
-        return self.suggested_prompts
+        return self._core.generate_suggested_prompts()
