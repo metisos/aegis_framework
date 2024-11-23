@@ -1,3 +1,7 @@
+# Core Implementation (Private)
+/aegis_framework/core/
+!/aegis_framework/core/__init__.py
+
 # Python
 __pycache__/
 *.py[cod]
@@ -24,16 +28,14 @@ wheels/
 venv/
 env/
 ENV/
+myenv/
+test_env/
 
 # IDE
 .idea/
 .vscode/
 *.swp
 *.swo
-
-# Core Implementation (Private)
-aegis_framework/core/
-!aegis_framework/core/__init__.py
 
 # Test files
 tests/
@@ -59,3 +61,7 @@ docs/_build/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Development directories
+aegis_framework_dev/
+__pycache__/
