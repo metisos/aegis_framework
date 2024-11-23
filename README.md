@@ -1,45 +1,76 @@
-# Aegis Framework
+# Aegis Multi-Agent Framework
 
-A comprehensive, extensible AI agent framework with local LLM integration.
+<div align="center">
 
-## Version 0.1.14
+![Aegis Multi-Agent Framework](https://raw.githubusercontent.com/metisos/aegis_framework/main/docs/assets/aegis-logo.png)
 
-### Features
+[![PyPI version](https://badge.fury.io/py/aegis-framework.svg)](https://badge.fury.io/py/aegis-framework)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
+[![Documentation Status](https://readthedocs.org/projects/aegis-framework/badge/?version=latest)](https://aegis-framework.readthedocs.io/en/latest/?badge=latest)
 
-- Modular agent architecture
-- Local LLM integration with Ollama
-- Simplified public interfaces
-- Extensible design patterns
-- Real-time task monitoring
-- Database insights tracking
-- Flexible model selection
+</div>
 
-## Installation
+## Overview
+
+The Aegis Multi-Agent Framework is a powerful, extensible platform for building and deploying AI agent systems with seamless local LLM integration. Designed for both researchers and developers, it provides a robust foundation for creating sophisticated multi-agent systems while maintaining simplicity and flexibility.
+
+### Key Features
+
+- **Modular Agent Architecture**
+  - Plug-and-play agent components
+  - Customizable agent behaviors
+  - Extensible design patterns
+
+- **Local LLM Integration**
+  - Native Ollama support
+  - Multiple model compatibility
+  - Optimized inference pipeline
+
+- **Advanced Task Management**
+  - Real-time task monitoring
+  - Parallel task execution
+  - Priority-based scheduling
+
+- **Performance Analytics**
+  - Built-in metrics tracking
+  - Performance optimization tools
+  - Detailed execution logs
+
+## Quick Start
+
+### Installation
 
 ```bash
+# Basic installation
 pip install aegis-framework
-```
 
-For web interface support:
-```bash
+# With web interface support
 pip install aegis-framework[web]
 ```
 
-## Quick Start
+### Basic Usage
 
 ```python
 from aegis_framework import MasterAIAgent, DesignAgent
 
-# Create a basic agent
-agent = MasterAIAgent(model="gemma2:9b")
+# Initialize a master agent
+agent = MasterAIAgent(
+    model="gemma2:9b",
+    temperature=0.7,
+    max_tokens=2048
+)
 
-# Ask questions
-response = agent.answer_question("What are the key principles of AI?")
+# Generate responses
+response = agent.answer_question("Explain the concept of emergent behavior in multi-agent systems.")
 print(response)
 
-# Generate designs
-designer = DesignAgent()
-design = designer.generate_new_design()
+# Create a specialized design agent
+designer = DesignAgent(model="codellama")
+design = designer.generate_new_design(
+    context="Create a microservices architecture",
+    constraints=["scalability", "fault-tolerance"]
+)
 print(design)
 ```
 
@@ -47,46 +78,122 @@ print(design)
 
 ```python
 from aegis_framework import MasterAIAgent
+from typing import Dict, List, Optional
 
 class DataAnalysisAgent(MasterAIAgent):
-    def __init__(self, model: str = "codellama"):
+    def __init__(
+        self, 
+        model: str = "codellama",
+        custom_tasks: Optional[Dict[str, List[str]]] = None
+    ):
         super().__init__(model=model)
+        
+        # Define specialized tasks
         self.agent_task_map.update({
             "data_analysis": [
                 "analyze data",
-                "run analysis",
-                "statistical test"
+                "statistical analysis",
+                "data visualization",
+                "hypothesis testing"
             ]
         })
+        
+        # Add custom tasks if provided
+        if custom_tasks:
+            self.agent_task_map.update(custom_tasks)
     
-    def analyze_data(self, data: str) -> str:
-        return self.generate_response(f"Analyze this data: {data}")
+    def analyze_data(
+        self, 
+        data: str,
+        analysis_type: str = "comprehensive",
+        confidence_level: float = 0.95
+    ) -> Dict[str, any]:
+        """
+        Perform data analysis with specified parameters.
+        
+        Args:
+            data: Input data for analysis
+            analysis_type: Type of analysis to perform
+            confidence_level: Statistical confidence level
+            
+        Returns:
+            Dictionary containing analysis results
+        """
+        prompt = self._construct_analysis_prompt(
+            data=data,
+            analysis_type=analysis_type,
+            confidence_level=confidence_level
+        )
+        return self.generate_structured_response(prompt)
 
-# Use custom agent
-analyst = DataAnalysisAgent()
-result = analyst.analyze_data("Your data here")
+# Usage example
+analyst = DataAnalysisAgent(model="codellama:13b")
+results = analyst.analyze_data(
+    data="your_data_here",
+    analysis_type="statistical",
+    confidence_level=0.99
+)
 ```
 
-## Requirements
+## System Requirements
 
+### Core Requirements
 - Python 3.7+
 - Ollama (for local LLM support)
+- 8GB+ RAM (recommended)
+- CUDA-compatible GPU (optional, for enhanced performance)
 
-## Optional Dependencies
+### Optional Dependencies
+- **Web Interface**
+  - Flask >= 2.0.0
+  - Flask-SocketIO >= 5.0.0
+  - Eventlet >= 0.30.0
 
-- Flask & Flask-SocketIO (for web interface)
-- fuzzywuzzy (for enhanced text matching)
-- sqlite3-api (for database insights)
+- **Enhanced Features**
+  - fuzzywuzzy >= 0.18.0 (text matching)
+  - sqlite3-api >= 3.0.0 (database integration)
+  - numpy >= 1.19.0 (numerical operations)
+  - pandas >= 1.3.0 (data handling)
 
 ## Documentation
 
-For detailed documentation and examples, visit our [GitHub repository](https://github.com/metisos/aegis-framework).
+Comprehensive documentation is available at [aegis-framework.readthedocs.io](https://aegis-framework.readthedocs.io/), including:
+
+- Detailed API Reference
+- Advanced Usage Guides
+- Best Practices
+- Example Projects
+- Performance Optimization Tips
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details on:
+
+- Code Style
+- Development Setup
+- Testing Requirements
+- Pull Request Process
 
 ## License
 
-MIT License. See LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Contact
+## Contact & Support
 
-- Author: Metis Analytics
-- Email: cjohnson@metisos.com
+- **Author**: Metis Analytics
+- **Email**: cjohnson@metisos.com
+- **GitHub Issues**: [Report a bug](https://github.com/metisos/aegis_framework/issues)
+- **Discord**: [Join our community](https://discord.gg/aegisframework)
+
+## Acknowledgments
+
+Special thanks to:
+- The Ollama team for their excellent LLM runtime
+- Our contributors and early adopters
+- The open-source AI community
+
+---
+
+<div align="center">
+Made with ❤️ by Metis Analytics
+</div>
