@@ -2,7 +2,7 @@ from setuptools import setup, find_namespace_packages
 
 setup(
     name="aegis_framework",  # Name of your package (should be unique on PyPI)
-    version="0.1.12",  # Version of your package
+    version="0.1.13",  # Version of your package
     description="A framework for creating multi-agent colonies",  # Short description
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
