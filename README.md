@@ -1,136 +1,92 @@
-# Aegis Multi-Agent Framework
+# Aegis Framework
 
-A powerful framework for creating multi-agent AI colonies, with support for local LLM integration through Ollama.
+A comprehensive, extensible AI agent framework with local LLM integration.
 
-## Features
+## Version 0.1.14
 
-- 🤖 Multi-agent system architecture
-- 🔄 Seamless Ollama LLM integration
-- 🛠️ Easy-to-use API
-- 📚 Comprehensive examples
-- 🔌 Extensible design
+### Features
+
+- Modular agent architecture
+- Local LLM integration with Ollama
+- Simplified public interfaces
+- Extensible design patterns
+- Real-time task monitoring
+- Database insights tracking
+- Flexible model selection
 
 ## Installation
-
-### Prerequisites
-
-1. Python 3.8 or higher
-2. [Ollama](https://ollama.ai) (optional, for LLM integration)
-
-### Install from PyPI
 
 ```bash
 pip install aegis-framework
 ```
 
-### Install from Source
-
+For web interface support:
 ```bash
-git clone https://github.com/metisos/aegis_framework.git
-cd aegis_framework
-pip install -e .
+pip install aegis-framework[web]
 ```
 
 ## Quick Start
 
-
-### Basic Usage (With Ollama LLM)
-
 ```python
-from aegis_framework import MasterAIAgent, OllamaLocalModel
+from aegis_framework import MasterAIAgent, DesignAgent
 
-# Initialize Ollama model
-llm = OllamaLocalModel(model="llama2")  # or any other Ollama model
-
-# Create an agent with LLM
-agent = MasterAIAgent(name="LLM Agent", llm=llm)
+# Create a basic agent
+agent = MasterAIAgent(model="gemma2:9b")
 
 # Ask questions
-response = agent.answer_question("Explain quantum computing")
+response = agent.answer_question("What are the key principles of AI?")
 print(response)
+
+# Generate designs
+designer = DesignAgent()
+design = designer.generate_new_design()
+print(design)
 ```
 
-## Coding Assistant Example
-
-The framework includes a powerful coding assistant example that can help with various programming tasks:
+## Creating Custom Agents
 
 ```python
-from aegis_framework import MasterAIAgent, OllamaLocalModel
+from aegis_framework import MasterAIAgent
 
-def create_coding_agent():
-    """Create an AI agent specialized for coding tasks"""
-    llm = OllamaLocalModel(model="llama2")
-    return MasterAIAgent(name="Code Assistant", llm=llm)
+class DataAnalysisAgent(MasterAIAgent):
+    def __init__(self, model: str = "codellama"):
+        super().__init__(model=model)
+        self.agent_task_map.update({
+            "data_analysis": [
+                "analyze data",
+                "run analysis",
+                "statistical test"
+            ]
+        })
+    
+    def analyze_data(self, data: str) -> str:
+        return self.generate_response(f"Analyze this data: {data}")
 
-# Create the coding agent
-agent = create_coding_agent()
-
-# Example coding tasks
-coding_questions = [
-    "Write a Python function that implements binary search",
-    "Create a Flask REST API endpoint",
-    "Write unit tests for email validation"
-]
-
-# Get coding assistance
-for question in coding_questions:
-    print(f"\nQuestion: {question}")
-    response = agent.answer_question(question)
-    print(f"Response: {response}")
+# Use custom agent
+analyst = DataAnalysisAgent()
+result = analyst.analyze_data("Your data here")
 ```
 
-See `coding_agent_example.py` for a complete example with interactive mode.
+## Requirements
 
-## Sample Scripts
+- Python 3.7+
+- Ollama (for local LLM support)
 
-The package includes several example scripts:
+## Optional Dependencies
 
-1. `sample_usage.py`: Basic usage examples
-2. `coding_agent_example.py`: Coding assistant implementation
+- Flask & Flask-SocketIO (for web interface)
+- fuzzywuzzy (for enhanced text matching)
+- sqlite3-api (for database insights)
 
-## Configuration
+## Documentation
 
-### Supported Ollama Models
-
-You can use any model available in Ollama. Some recommended models:
-
-- llama2
-- codellama
-- mistral
-- gemma
-
-To use a specific model:
-```python
-llm = OllamaLocalModel(model="your_preferred_model")
-```
-
-## Development
-
-### Running Tests
-
-```bash
-python -m pytest tests/
-```
-
-### Contributing
-
-1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+For detailed documentation and examples, visit our [GitHub repository](https://github.com/metisos/aegis-framework).
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+MIT License. See LICENSE file for details.
 
 ## Contact
 
 - Author: Metis Analytics
 - Email: cjohnson@metisos.com
-- GitHub: https://github.com/metisos/aegis_framework
-
-## Acknowledgments
-
-- Thanks to the Ollama team for their excellent LLM runtime
-- All contributors and users of the framework

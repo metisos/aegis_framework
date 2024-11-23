@@ -1,14 +1,12 @@
 """
-OllamaLocalModel: Interface for local LLM integration through Ollama.
+Public interface for OllamaLocalModel.
 """
 
-import subprocess
-import logging
-from typing import Optional
+from ..core.ollama_model import OllamaLocalModel as CoreOllamaModel
 
-class OllamaLocalModel:
+class OllamaLocalModel(CoreOllamaModel):
     """
-    Interface for local LLM models using Ollama.
+    Public interface for local LLM models using Ollama.
     Requires Ollama to be installed locally: https://ollama.ai
     """
     
@@ -19,7 +17,7 @@ class OllamaLocalModel:
         Args:
             model: Name of the Ollama model to use (e.g., "llama2:13b", "mistral", "codellama")
         """
-        self.model = model
+        super().__init__(model=model)
     
     def invoke(self, prompt: str) -> str:
         """
@@ -30,19 +28,8 @@ class OllamaLocalModel:
             
         Returns:
             str: Generated response from the model
-        
+            
         Raises:
             subprocess.CalledProcessError: If Ollama command fails
         """
-        try:
-            result = subprocess.run(
-                ["ollama", "run", self.model],
-                input=prompt,
-                capture_output=True,
-                text=True,
-                check=True
-            )
-            return result.stdout.strip()
-        except subprocess.CalledProcessError as e:
-            logging.error(f"Ollama error: {e.stderr}")
-            raise
+        return super().invoke(prompt)

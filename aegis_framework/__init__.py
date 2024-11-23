@@ -1,13 +1,15 @@
 """
-Aegis Framework - A framework for creating multi-agent colonies
+Aegis Framework: A lightweight framework for creating and managing AI agents with local LLM integration.
 """
 
 __version__ = "0.1.13"
-__author__ = "Metis Analytics"
-__email__ = "cjohnson@metisos.com"
 
-from .core.master_agent import MasterAIAgent
-from .core.ollama_model import OllamaLocalModel
-from .core.design_agent import DesignAgent
+from .public.master_agent import MasterAIAgent
+from .public.ollama_model import OllamaLocalModel
+from .public.design_agent import DesignAgent
 
-__all__ = ["MasterAIAgent", "OllamaLocalModel", "DesignAgent"]
+__all__ = [
+    "MasterAIAgent",
+    "OllamaLocalModel",
+    "DesignAgent"
+]
