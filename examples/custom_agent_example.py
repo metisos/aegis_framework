@@ -21,9 +21,6 @@ class DataAnalysisAgent(MasterAIAgent):
                 "data insights"
             ]
         })
-        
-        # Update suggested prompts
-        self.suggested_prompts = self.generate_suggested_prompts()
     
     def analyze_data(self, data_description: str) -> str:
         """
@@ -35,16 +32,7 @@ class DataAnalysisAgent(MasterAIAgent):
         Returns:
             str: Analysis results
         """
-        prompt = f"""
-        Analyze the following data and provide insights:
-        {data_description}
-        
-        Please include:
-        1. Key patterns or trends
-        2. Statistical significance
-        3. Recommendations
-        """
-        return self.generate_response(prompt)
+        return self.perform_task(f"Analyze this data: {data_description}")
 
 def demonstrate_custom_agent():
     """Show how to use a custom agent."""

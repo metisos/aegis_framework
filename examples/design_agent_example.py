@@ -1,39 +1,39 @@
 """
-Example demonstrating the use of the DesignAgent to generate new agent designs.
+Example demonstrating the use of the DesignAgent.
 """
 
-from aegis_framework import OllamaLocalModel
-from aegis_framework.core.design_agent import DesignAgent
+from aegis_framework import DesignAgent
+from aegis_framework.public.design_agent import run_design_task
 
 def main():
-    # Initialize the design agent with custom models (optional)
-    design_model = OllamaLocalModel(model="llama2:13b")
-    review_model = OllamaLocalModel(model="llama2:13b")
+    """Run the design agent example."""
+    print("\n=== Design Agent Demo ===")
     
-    agent = DesignAgent(
-        design_model=design_model,
-        review_model=review_model,
-        design_interval=3600  # Generate designs every hour
-    )
+    # Initialize design agent
+    agent = DesignAgent(model="gemma2:9b")
     
-    # Generate a single new design
-    print("Generating a new agent design...")
-    result = agent.generate_new_design()
-    print(result)
+    # Get suggested designs
+    print("\nSuggested design patterns:")
+    for design in agent.get_suggested_designs():
+        print(f"- {design}")
     
-    # Start periodic design generation
-    print("\nStarting periodic design generation...")
-    agent.start_periodic_design()
+    # Generate a new design
+    print("\nGenerating new design...")
+    design = agent.generate_new_design()
+    print(f"Design: {design}")
     
-    try:
-        # Let it run for a while (5 minutes in this example)
-        import time
-        time.sleep(300)
-    except KeyboardInterrupt:
-        print("\nStopping periodic design generation...")
-    finally:
-        # Stop periodic generation
-        agent.stop_periodic_design()
+    # Run specific design tasks
+    tasks = [
+        "design a data processing pipeline agent",
+        "create an agent for natural language understanding",
+        "design a multi-agent system for distributed computing"
+    ]
+    
+    print("\nRunning design tasks:")
+    for task in tasks:
+        print(f"\nTask: {task}")
+        result = run_design_task(task)
+        print(f"Result: {result}")
 
 if __name__ == "__main__":
     main()
