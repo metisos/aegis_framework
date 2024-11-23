@@ -45,10 +45,40 @@ class DataAnalysisAgent(MasterAIAgent):
         if custom_tasks:
             self.agent_task_map.update(custom_tasks)
     
+    def _construct_analysis_prompt(
+        self,
+        data: str,
+        analysis_type: str,
+        confidence_level: float = 0.95
+    ) -> str:
+        """
+        Construct a prompt for data analysis.
+        
+        Args:
+            data: Data to analyze
+            analysis_type: Type of analysis to perform
+            confidence_level: Statistical confidence level
+            
+        Returns:
+            str: Constructed prompt
+        """
+        return f"""
+        Perform a {analysis_type} analysis of this data with {confidence_level} confidence level:
+        
+        {data}
+        
+        Please include:
+        1. Key trends and patterns
+        2. Statistical summary (mean, median, variance)
+        3. Confidence intervals where applicable
+        4. Recommendations based on the analysis
+        """
+    
     def analyze_data(
         self,
         data: str,
-        analysis_type: str = "comprehensive"
+        analysis_type: str = "comprehensive",
+        confidence_level: float = 0.95
     ) -> Dict[str, Any]:
         """
         Analyze data using LLM capabilities.
@@ -56,90 +86,73 @@ class DataAnalysisAgent(MasterAIAgent):
         Args:
             data: Data to analyze
             analysis_type: Type of analysis to perform
+            confidence_level: Statistical confidence level
             
         Returns:
             Dict[str, Any]: Analysis results
         """
-        prompt = f"""
-        Perform a {analysis_type} analysis of this data:
-        
-        {data}
-        
-        Please include:
-        1. Key trends
-        2. Statistical summary
-        3. Notable patterns
-        4. Recommendations
-        """
-        return self.perform_task(prompt)
+        prompt = self._construct_analysis_prompt(
+            data=data,
+            analysis_type=analysis_type,
+            confidence_level=confidence_level
+        )
+        return self.generate_structured_response(prompt)
 
 def demonstrate_custom_agent(model: str = "gemma2:9b"):
     """Show how to use a custom agent."""
     print("\n=== Custom Agent Demo ===")
     print(f"Using model: {model}")
     
-    # Create custom agent
-    analyst = DataAnalysisAgent(model=model)
-    
-    # Show available tasks
-    print("\nAvailable tasks:")
-    tasks = analyst.get_task_list()
-    for task in tasks:
-        print(f"- {task}")
-    
-    # Run analysis
-    data = """
-    Monthly sales data for 2023:
-    Jan: $50,000
-    Feb: $55,000
-    Mar: $48,000
-    Apr: $62,000
-    May: $58,000
-    Jun: $65,000
-    """
-    
-    print("\nAnalyzing sales data...")
-    for analysis_type in ["comprehensive", "trend", "statistical"]:
-        print(f"\nPerforming {analysis_type} analysis:")
-        result = analyst.analyze_data(data, analysis_type=analysis_type)
-        print(f"Results: {result}")
-    
-    # Ask specific questions
-    questions = [
-        "What is the overall trend in sales?",
-        "Which month had the highest sales?",
-        "What is the average monthly sales?",
-        "What recommendations would you make based on this data?"
-    ]
-    
-    print("\nAsking specific questions:")
-    for question in questions:
-        print(f"\nQ: {question}")
-        answer = analyst.answer_question(question)
-        print(f"A: {answer}")
-
-def main():
-    """Run the custom agent demonstration."""
-    parser = argparse.ArgumentParser(
-        description="Demonstrate custom agent capabilities"
-    )
-    parser.add_argument(
-        "--model",
-        default="gemma2:9b",
-        help="Name of the LLM model to use"
-    )
-    args = parser.parse_args()
-    
     try:
-        demonstrate_custom_agent(model=args.model)
-        print("\nDemonstration complete!")
-        print("For more examples and documentation, visit: https://github.com/metisos/aegis-framework")
-    
-    except KeyboardInterrupt:
-        print("\nDemonstration interrupted by user.")
+        # Create custom agent
+        analyst = DataAnalysisAgent(model=model)
+        
+        # Show available tasks
+        print("\nAvailable tasks:")
+        for category, tasks in analyst.agent_task_map.items():
+            print(f"\n{category.upper()}:")
+            for task in tasks:
+                print(f"- {task}")
+        
+        # Run analysis
+        data = """
+        Monthly sales data for 2023:
+        Jan: $50,000
+        Feb: $55,000
+        Mar: $48,000
+        Apr: $62,000
+        May: $58,000
+        Jun: $65,000
+        """
+        
+        print("\nAnalyzing sales data...")
+        result = analyst.analyze_data(
+            data=data,
+            analysis_type="statistical",
+            confidence_level=0.95
+        )
+        
+        if result["status"] == "success":
+            print("\nAnalysis Results:")
+            print(result["response"])
+        else:
+            print("\nError during analysis:", result["message"])
+            
     except Exception as e:
         print(f"\nError during demonstration: {str(e)}")
         print("Please check that you're using a supported model and have set up the framework correctly.")
+
+def main():
+    """Main entry point."""
+    parser = argparse.ArgumentParser(description="Custom Agent Example")
+    parser.add_argument(
+        "--model",
+        default="gemma2:9b",
+        help="Name of the Ollama model to use"
+    )
+    args = parser.parse_args()
+    
+    demonstrate_custom_agent(model=args.model)
 
 if __name__ == "__main__":
     main()

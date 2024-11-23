@@ -17,6 +17,7 @@ class MasterAIAgent:
             model: Name of the LLM model to use
         """
         self._core = CoreMasterAgent(model=model)
+        self.agent_task_map = self._core.agent_task_map
     
     def answer_question(self, question: str) -> str:
         """
@@ -59,3 +60,15 @@ class MasterAIAgent:
             List[str]: List of suggested prompts
         """
         return self._core.generate_suggested_prompts()
+    
+    def generate_structured_response(self, prompt: str) -> Dict[str, Any]:
+        """
+        Generate a structured response using the LLM.
+        
+        Args:
+            prompt: Input prompt for the model
+            
+        Returns:
+            Dict[str, Any]: Structured response
+        """
+        return self._core.generate_structured_response(prompt)

@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="aegis-framework",
-    version="0.1.15",
+    version="0.1.16",
     packages=find_packages(),
     install_requires=[
         "typing>=3.7.4",
