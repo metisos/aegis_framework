@@ -27,7 +27,7 @@ from aegis_framework import DesignAgent
 class DesignManager:
     """Helper class to manage and demonstrate design agent capabilities."""
     
-    def __init__(self, model: str = "gemma2:9b"):
+    def __init__(self, model: str = "llama2"):
         """Initialize the design manager."""
         self.agent = DesignAgent(model=model)
         self.designs: List[Dict[str, Any]] = []

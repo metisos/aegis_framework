@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="aegis-framework",
-    version="0.1.16",
+    version="0.1.18",
     packages=find_packages(),
     install_requires=[
         "typing>=3.7.4",
@@ -37,6 +37,7 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.12",
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
@@ -52,6 +53,10 @@ setup(
             "pandas>=1.3.0",
             "matplotlib>=3.3.0",
             "seaborn>=0.11.0"
+        ],
+        "llm": [
+            "ollama>=0.1.0",
+            "transformers>=4.0.0"
         ],
         "dev": [
             "pytest>=6.0.0",
