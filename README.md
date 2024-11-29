@@ -35,23 +35,53 @@ pip install aegis-framework
 
 ```python
 from aegis_framework import MasterAIAgent, DesignAgent
+import os
+from datetime import datetime
 
 # Initialize a master agent
-agent = MasterAIAgent(model="gemma2:9b")
+agent = MasterAIAgent(model="llama2:13b")
+
+# Get user input for the question
+user_question = input("Enter your question: ")
 
 # Generate responses
-response = agent.answer_question(
-    "What are the key principles of multi-agent systems?"
-)
-print(response)
+response = agent.answer_question(user_question)
+print("\nResponse:", response)
 
 # Create a specialized design agent
-designer = DesignAgent(model="gemma2:9b")
-design = designer.generate_new_design(
-    context="Create a microservices architecture",
-    constraints=["scalability", "fault-tolerance"]
-)
-print(design)
+designer = DesignAgent(model="llama2:13b")
+
+# Get user input for design context
+context = input("\nEnter design context: ")
+
+# Generate the design
+design = designer.generate_new_design(context=context)
+
+# Create README content
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+readme_content = f"""# AI Agent Design - {timestamp}
+
+## Design Context
+{context}
+
+## Design Details
+- Class Name: {design['class_name']}
+- Generated: {timestamp}
+
+## Design Content
+"""
+
+# Add the original design content
+with open(design['path'], 'r') as f:
+    readme_content += f.read()
+
+# Save as README in current directory
+readme_path = os.path.join(os.path.dirname(__file__), f'README_{timestamp}.md')
+with open(readme_path, 'w') as f:
+    f.write(readme_content)
+
+print(f"\nDesign saved to: {readme_path}")
+
 ```
 
 ## Creating Custom Agents
